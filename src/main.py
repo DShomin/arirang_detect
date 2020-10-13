@@ -60,7 +60,7 @@ for fold_number, (train_index, val_index) in enumerate(skf.split(X=df_folds.inde
 def get_train_transforms():
     return A.Compose(
         [
-            A.RandomSizedCrop(min_max_height=(800, 800), height=1024, width=1024, p=0.5),
+            # A.RandomSizedCrop(min_max_height=(800, 800), height=1024, width=1024, p=0.5),
             A.OneOf([
                 A.HueSaturationValue(hue_shift_limit=0.2, sat_shift_limit= 0.2, 
                                      val_shift_limit=0.2, p=0.9),
@@ -71,7 +71,7 @@ def get_train_transforms():
             A.HorizontalFlip(p=0.5),
             A.VerticalFlip(p=0.5),
             A.Resize(height=512, width=512, p=1),
-            A.Cutout(num_holes=8, max_h_size=64, max_w_size=64, fill_value=0, p=0.5),
+            # A.Cutout(num_holes=8, max_h_size=64, max_w_size=64, fill_value=0, p=0.5),
             ToTensorV2(p=1.0),
         ], 
         p=1.0, 
@@ -112,7 +112,7 @@ class DatasetRetriever(Dataset):
     def __getitem__(self, index: int):
         image_id = self.image_ids[index]
         
-        if self.test or random.random() > 0.5:
+        if self.test or random.random() > 0.0:
             image, boxes = self.load_image_and_boxes(index)
         else:
             image, boxes = self.load_cutmix_image_and_boxes(index)
@@ -406,12 +406,12 @@ class Fitter:
 
 
 class TrainGlobalConfig:
-    num_workers = 2
+    num_workers = 4
     batch_size = 2 
-    n_epochs = 100 # n_epochs = 40
+    n_epochs = 40 # n_epochs = 40
     lr = 0.0002
 
-    folder = 'effdet5-cutmix-augmix_ep100'
+    folder = 'effdet5-witout-cutout'
 
     # -------------------
     verbose = True
