@@ -1,10 +1,18 @@
 # arirang_detect
 dacon arirang objecte detection
 
+## 공통수행 작업
 1. download data from dacon
 2. notebook/read_json.ipynb 를 실행하여 라벨을 csv로 바꿔준다.
-3. pretrained model download
-4. python src/main.py
+
+## YoloV5 사용법
+1. yolo_v5 폴더 내에 `python munge_data.py` 으로 데이터 전처리 수행
+2. `python train.py`을 이용하여 train
+3. 예제 코드 `python train.py --img 1024 --batch 1 --epochs 40 --data ./config/fold_0.yaml --cfg ./config/yolov5x.yaml --name yolov5x_fold0 --logdir fold0`
+
+## EfficientDet 사용법
+1. pretrained model download
+2. python src/main.py
 
 ## albumentation image augmentation 문제 발생
 
